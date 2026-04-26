@@ -4,41 +4,57 @@
 
 {% block content %}
 
-<!-- HERO -->
+<!-- ===== HERO ===== -->
 <section class="hero">
   <div class="hero-blobs">
-    <div class="hero-blob hero-blob-1"></div>
-    <div class="hero-blob hero-blob-2"></div>
-    <div class="hero-blob hero-blob-3"></div>
+    <div class="hero-blob hero-blob-1 parallax-layer"></div>
+    <div class="hero-blob hero-blob-2 parallax-layer"></div>
+    <div class="hero-blob hero-blob-3 parallax-layer"></div>
   </div>
+
   <div class="hero-content">
     <div class="hero-badge">India's AI-Powered Learning Platform</div>
+
     <h1 class="hero-heading">
       <span class="hero-line-1">Discover Learn</span>
       <span class="hero-line-2">
         <span class="hero-star">✦</span> Achieve Success
       </span>
     </h1>
-    <p class="hero-sub">Our courses dare you to dream bigger, learn smarter, and outperform the ordinary.</p>
+
+    <p class="hero-sub">
+      Our courses dare you to dream bigger, learn smarter,<br>
+      and outperform the ordinary.
+    </p>
+
     <div class="hero-cta">
-      <a href="{% if user.is_authenticated %}/dashboard/{% else %}/register/{% endif %}" class="btn btn-primary ripple-effect">
+      <a href="{% if user.is_authenticated %}/dashboard/{% else %}/register/{% endif %}"
+         class="btn btn-primary ripple-effect">
         <i class="fa-solid fa-rocket"></i> Get Started Free
       </a>
     </div>
   </div>
 </section>
 
-<!-- STATS -->
+<!-- ===== STATS ===== -->
 <section class="stats-section">
   <div class="stats-grid">
-    <div class="stat-item reveal"><h3>{{ stats.students }}</h3><p>Students</p></div>
-    <div class="stat-item reveal reveal-delay-1"><h3>{{ stats.partners }}</h3><p>Partners</p></div>
-    <div class="stat-item reveal reveal-delay-2"><h3>{{ stats.courses }}</h3><p>Courses</p></div>
-    <div class="stat-item reveal reveal-delay-3"><h3>{{ stats.tutor }}</h3><p>AI Tutor</p></div>
+    <div class="stat-item reveal">
+      <h3>{{ stats.students }}</h3><p>Students</p>
+    </div>
+    <div class="stat-item reveal reveal-delay-1">
+      <h3>{{ stats.partners }}</h3><p>Partners</p>
+    </div>
+    <div class="stat-item reveal reveal-delay-2">
+      <h3>{{ stats.courses }}</h3><p>Courses</p>
+    </div>
+    <div class="stat-item reveal reveal-delay-3">
+      <h3>{{ stats.tutor }}</h3><p>AI Tutor</p>
+    </div>
   </div>
 </section>
 
-<!-- SCROLLING MARQUEE STRIP -->
+<!-- ===== MARQUEE STRIP ===== -->
 <div class="marquee-strip">
   <div class="marquee-track">
     <div class="marquee-content">
@@ -61,7 +77,6 @@
       <span class="marquee-item">GET HIRED AT TOP COMPANIES</span>
       <span class="marquee-dot">✦</span>
     </div>
-    <!-- Duplicate for seamless loop -->
     <div class="marquee-content" aria-hidden="true">
       <span class="marquee-item">LEARN WHAT THE INDUSTRY DEMANDS</span>
       <span class="marquee-dot">✦</span>
@@ -85,14 +100,15 @@
   </div>
 </div>
 
-<!-- WHY SECTION -->
-<section class="section" style="background:var(--bg);">
+<!-- ===== WHY LEARNERS TRACK ===== -->
+<section class="section" style="background: linear-gradient(160deg,#f0e8ff 0%,#fde8f4 100%);">
   <div class="section-header">
     <div class="section-tag">WHY LEARNERS TRACK</div>
     <h2 class="section-title">Join in on <span class="star">✦</span> Something Big</h2>
     <p class="section-subtitle">A complete learning ecosystem designed to take you from beginner to job-ready.</p>
   </div>
-  <div class="features-grid">
+
+  <div class="features-grid" id="featuresGrid">
     <div class="feature-card reveal">
       <div class="feature-icon">🎓</div>
       <h3>Expert Curriculum</h3>
@@ -126,22 +142,26 @@
   </div>
 </section>
 
-<!-- FEATURED COURSES -->
+<!-- ===== FEATURED COURSES ===== -->
 {% if featured_courses %}
-<section class="section" style="background:white;">
+<section class="section" style="background: linear-gradient(160deg,#fde8f4 0%,#e8f0fe 100%);">
   <div class="section-header">
     <div class="section-tag bordered"><i class="fa-solid fa-crown"></i> Featured Courses</div>
     <h2 class="section-title">Learn From The <span class="accent">Best</span></h2>
     <p class="section-subtitle">Hand-picked courses to accelerate your career growth.</p>
   </div>
+
   <div class="courses-grid" id="featuredCourses">
     {% for course in featured_courses %}
-    <a href="/courses/{{ course.pk }}/" class="course-card reveal" style="transition-delay:{{ forloop.counter0 }}00ms;">
+    <a href="/courses/{{ course.pk }}/" class="course-card">
       <div class="course-card-img-wrap">
         {% if course.image_url %}
           <img src="{{ course.image_url }}" alt="{{ course.title }}" class="course-card-img" loading="lazy">
         {% else %}
-          <div class="course-card-img" style="background:linear-gradient(135deg,var(--orange),var(--orange-dark));display:flex;align-items:center;justify-content:center;font-size:3rem;">📘</div>
+          <div class="course-card-img"
+               style="background:var(--grad-pink);display:flex;align-items:center;justify-content:center;font-size:3rem;">
+            📘
+          </div>
         {% endif %}
         <span class="course-level-badge badge-{{ course.level|lower }}">{{ course.level }}</span>
         <span class="course-category-badge">{{ course.category }}</span>
@@ -157,7 +177,8 @@
     </a>
     {% endfor %}
   </div>
-  <div style="text-align:center;margin-top:44px;">
+
+  <div style="text-align:center;margin-top:48px;">
     <a href="/courses/" class="btn btn-outline">
       <i class="fa-solid fa-grid-2"></i> View All Courses
     </a>
@@ -165,20 +186,26 @@
 </section>
 {% endif %}
 
-<!-- ABOUT PREVIEW -->
-<section class="section" style="background:var(--bg);">
+<!-- ===== ABOUT PREVIEW ===== -->
+<section class="section" style="background: linear-gradient(160deg,#e8f0fe 0%,#f0e8ff 100%);">
   <div class="about-split">
     <div class="reveal">
       <div class="section-tag">ABOUT</div>
-      <h2 class="section-title" style="text-align:left;">Who We Are &<br>What We Stand For</h2>
-      <p style="color:var(--text-muted);margin-bottom:14px;line-height:1.75;font-size:0.95rem;">
-        Learners Track is a leading online learning platform dedicated to bridging the gap between education and industry. We empower students, graduates, and professionals with the skills needed to thrive in today's competitive job market.
+      <h2 class="section-title" style="text-align:left;">
+        Who We Are &<br>What We Stand For
+      </h2>
+      <p style="color:var(--text-body);margin-bottom:15px;line-height:1.8;font-size:0.96rem;">
+        Learners Track is a leading online learning platform dedicated to bridging
+        the gap between education and industry. We empower students, graduates,
+        and professionals with the skills to thrive in today's competitive job market.
       </p>
-      <p style="color:var(--text-muted);margin-bottom:30px;line-height:1.75;font-size:0.95rem;">
-        With expert mentors, industry-relevant curriculum, and AI-powered tutoring, we create a transformative educational experience accessible to everyone.
+      <p style="color:var(--text-body);margin-bottom:32px;line-height:1.8;font-size:0.96rem;">
+        With expert mentors, industry-relevant curriculum, and AI-powered tutoring,
+        we create a transformative educational experience accessible to everyone.
       </p>
       <a href="/about/" class="btn btn-outline">Read More →</a>
     </div>
+
     <div class="about-cards reveal reveal-delay-2">
       <div class="about-mini-card">
         <div class="icon">🎯</div>
@@ -204,15 +231,24 @@
   </div>
 </section>
 
-<!-- CTA -->
+<!-- ===== CTA ===== -->
 <div class="cta-section reveal">
   <h2>Ready to Transform Your Career?</h2>
   <p>Join 10,000+ learners who've already made the leap. Start your journey today — it's free.</p>
-  <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;">
     <a href="/register/" class="btn btn-white ripple-effect">
       <i class="fa-solid fa-user-plus"></i> Create Free Account
     </a>
   </div>
 </div>
 
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  window.addEventListener('load', () => {
+    staggerCards('#featuredCourses .course-card', 90);
+    staggerCards('#featuresGrid .feature-card', 80);
+  });
+</script>
 {% endblock %}
