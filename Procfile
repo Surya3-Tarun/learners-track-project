@@ -1,1 +1,0 @@
-web: gunicorn learners_track.wsgi:application
