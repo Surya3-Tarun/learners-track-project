@@ -1,0 +1,55 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}AI Tutor{% endblock %}
+
+{% block content %}
+<div class="chatbot-page">
+  <div class="chatbot-container reveal">
+    <div class="chatbot-header">
+      <div class="chatbot-header-info">
+        <div class="chatbot-avatar">
+          <img src="{% static 'img/chatbot_icon.jpeg' %}" alt="AI Tutor">
+        </div>
+        <div>
+          <h3>Learners Track AI Tutor <span style="background:rgba(255,255,255,0.2);padding:2px 9px;border-radius:20px;font-size:0.68rem;font-weight:600;margin-left:8px;">{{ total_courses }} COURSES</span></h3>
+          <p><span class="status-dot"></span> Online — Ready to help</p>
+        </div>
+      </div>
+      <button class="clear-btn-chat" id="clearChat">CLEAR</button>
+    </div>
+
+    <div class="quick-chips">
+      <button class="quick-chip">List all courses</button>
+      <button class="quick-chip">Tell me about Python</button>
+      <button class="quick-chip">Best course for AI</button>
+      <button class="quick-chip">What is Data Science?</button>
+      <button class="quick-chip">Tell me about AWS</button>
+      <button class="quick-chip">Best course for beginners</button>
+    </div>
+
+    <div class="chat-messages" id="chatMessages"></div>
+
+    <div class="chat-input-area">
+      <button class="chat-mic-btn" id="micBtn" title="Speak">
+        <i class="fa-solid fa-microphone"></i>
+      </button>
+      <input type="text" id="chatInput" placeholder="Ask about any of our {{ total_courses }} courses...">
+      <button class="chat-send-btn" id="sendBtn">
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </div>
+    <p class="chat-hint">Press Enter to send · Click mic to speak · Click 🔊 to hear reply</p>
+  </div>
+</div>
+
+<script>
+window.USER_INITIAL = '{{ user.username|first|upper|default:"U" }}';
+window.TOTAL_COURSES = {{ total_courses }};
+window.COURSES_DATA = {{ courses_data|safe }};
+window.CHATBOT_IMG = "{% static 'img/chatbot_icon.jpeg' %}";
+</script>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/chatbot.js' %}"></script>
+{% endblock %}

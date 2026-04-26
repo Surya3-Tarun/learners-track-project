@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="section-tag bordered" style="color:white;border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.15);">GET IN TOUCH</div>
+  <h1>Contact <span style="color:rgba(255,255,255,0.8);">Us</span></h1>
+  <p>We are here to help you. Reach out to us via WhatsApp or give us a call — we typically respond within minutes.</p>
+</div>
+
+<section class="section">
+  <div class="contact-cards reveal">
+    <div class="contact-card whatsapp">
+      <div class="contact-icon-wrap">
+        <i class="fa-brands fa-whatsapp"></i>
+      </div>
+      <h3>Chat on WhatsApp</h3>
+      <p>Send us a message on WhatsApp and get an instant reply from our team.</p>
+      <a href="https://wa.me/916305818324" target="_blank" class="btn btn-whatsapp ripple-effect" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:12px;font-weight:600;">
+        <i class="fa-brands fa-whatsapp"></i> Open WhatsApp
+      </a>
+    </div>
+    <div class="contact-card phone">
+      <div class="contact-icon-wrap">
+        <i class="fa-solid fa-phone"></i>
+      </div>
+      <h3>Call Us</h3>
+      <p>Speak directly with our team. Available Mon–Sat, 9 AM to 6 PM IST.</p>
+      <div class="contact-number">+91 63058 18324</div>
+      <a href="tel:+916305818324" class="btn btn-phone ripple-effect" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:12px;font-weight:600;">
+        <i class="fa-solid fa-phone"></i> Call Now
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock %}

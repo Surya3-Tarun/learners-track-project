@@ -1,0 +1,67 @@
+{% extends 'core/base.html' %}
+{% block title %}Courses{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <h1><i class="fa-solid fa-graduation-cap"></i> All Courses</h1>
+  <p>Explore {{ total }} expert-crafted courses to level up your skills</p>
+</div>
+
+<!-- Filter bar -->
+<div class="filter-bar">
+  <a href="/courses/" class="filter-chip {% if not selected_category and not selected_level %}active{% endif %}">All</a>
+  {% for cat in categories %}
+    <a href="/courses/?category={{ cat.0 }}{% if query %}&q={{ query }}{% endif %}" class="filter-chip {% if selected_category == cat.0 %}active{% endif %}">{{ cat.1 }}</a>
+  {% endfor %}
+  <div style="height:1px;width:100%;background:var(--border);flex-basis:100%;margin:4px 0;"></div>
+  {% for lv in levels %}
+    <a href="/courses/?level={{ lv.0 }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if query %}&q={{ query }}{% endif %}" class="filter-chip {% if selected_level == lv.0 %}active{% endif %}">{{ lv.1 }}</a>
+  {% endfor %}
+</div>
+
+<div class="filter-results">
+  <span>
+    Showing <strong>{{ showing }}</strong> of <strong>{{ total }}</strong> courses
+    {% if selected_category %} in <strong>{{ selected_category }}</strong>{% endif %}
+    {% if selected_level %} — <strong>{{ selected_level }}</strong>{% endif %}
+    {% if query %} for <strong>"{{ query }}"</strong>{% endif %}
+  </span>
+  {% if selected_category or selected_level or query %}
+    <a href="/courses/" class="clear-btn"><i class="fa-solid fa-xmark"></i> Clear filters</a>
+  {% endif %}
+</div>
+
+<div class="courses-grid" style="padding:20px 5% 60px;" id="courseGrid">
+  {% for course in courses %}
+  <a href="/courses/{{ course.pk }}/" class="course-card">
+    <div class="course-card-img-wrap">
+      {% if course.image_url %}
+        <img src="{{ course.image_url }}" alt="{{ course.title }}" class="course-card-img" loading="lazy">
+      {% else %}
+        <div class="course-card-img" style="background:linear-gradient(135deg,var(--orange),var(--orange-dark));display:flex;align-items:center;justify-content:center;font-size:3rem;">📘</div>
+      {% endif %}
+      <span class="course-level-badge badge-{{ course.level|lower }}">{{ course.level }}</span>
+      <span class="course-category-badge">{{ course.category }}</span>
+    </div>
+    <div class="course-card-body">
+      <h3>{{ course.title }}</h3>
+      <p>{{ course.description|truncatechars:90 }}</p>
+      <div class="course-card-footer">
+        <div class="course-price">₹{{ course.price }}</div>
+        <span class="btn btn-primary btn-sm">View Details</span>
+      </div>
+    </div>
+  </a>
+  {% empty %}
+  <div style="grid-column:1/-1;text-align:center;padding:80px 20px;color:var(--text-muted);">
+    <i class="fa-solid fa-search" style="font-size:3rem;margin-bottom:16px;opacity:0.3;display:block;"></i>
+    <h3 style="font-family:var(--font-display);margin-bottom:8px;">No courses found</h3>
+    <p>Try different search terms or <a href="/courses/" style="color:var(--orange);">view all courses</a></p>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
+{% block extra_scripts %}
+<script>staggerCards('#courseGrid .course-card');</script>
+{% endblock %}

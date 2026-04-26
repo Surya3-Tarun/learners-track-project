@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Learners Track{% endblock %} — India's AI-Powered Learning Platform</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/theme.css' %}?v=20260424">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" role="navigation">
+  <a href="/" class="nav-logo">
+    <img src="{% static 'img/logo.jpeg' %}" alt="Learners Track Logo" class="nav-logo-img">
+    <span class="nav-logo-text">Learners <span>Track</span></span>
+  </a>
+
+  <form class="nav-search" action="/courses/" method="GET">
+    <input type="text" name="q" placeholder="Search courses..." value="{{ request.GET.q|default:'' }}">
+    <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+  </form>
+
+  <button class="nav-menu-btn" id="navMenuBtn" aria-label="Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <div class="nav-dropdown" id="navDropdown">
+    <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+    <a href="/about/"><i class="fa-solid fa-circle-info"></i> About</a>
+    <a href="/courses/"><i class="fa-solid fa-graduation-cap"></i> Courses</a>
+    <a href="/jobs/"><i class="fa-solid fa-briefcase"></i> Job Portal</a>
+    <a href="/contact/"><i class="fa-solid fa-phone"></i> Contact</a>
+    <div class="nav-divider"></div>
+    {% if user.is_authenticated %}
+      <a href="/dashboard/"><i class="fa-solid fa-chart-line"></i> My Courses</a>
+      <a href="/chatbot/"><i class="fa-solid fa-robot"></i> AI Tutor</a>
+      <a href="/logout/" class="nav-login"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    {% else %}
+      <a href="/login/" class="nav-login"><i class="fa-solid fa-lock"></i> Login</a>
+    {% endif %}
+  </div>
+</nav>
+
+<!-- MESSAGES -->
+{% if messages %}
+<div style="position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:2000;width:90%;max-width:500px;">
+  {% for message in messages %}
+    <div class="alert alert-{% if message.tags == 'error' %}error{% elif message.tags == 'success' %}success{% else %}info{% endif %}">
+      <i class="fa-solid fa-{% if message.tags == 'error' %}circle-exclamation{% elif message.tags == 'success' %}circle-check{% else %}circle-info{% endif %}"></i>
+      {{ message }}
+    </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<!-- MAIN CONTENT -->
+{% block content %}{% endblock %}
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="{% static 'img/logo.jpeg' %}" alt="Learners Track Logo" style="width:28px;height:28px;object-fit:contain;border-radius:6px;">
+    <span style="font-weight:700;color:white;font-size:1rem;">Learners Track</span>
+  </div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/about/">About</a>
+    <a href="/courses/">Courses</a>
+    <a href="/jobs/">Job Portal</a>
+    <a href="/contact/">Contact</a>
+    {% if user.is_authenticated %}<a href="/dashboard/">Dashboard</a>{% endif %}
+  </nav>
+  <p>© 2026 Learners Track. All rights reserved.</p>
+  <p class="dev-credit">Developed by <a href="#">Sofzenix IT Solutions</a></p>
+</footer>
+
+<!-- CHATBOT FLOATING BUTTON -->
+<div class="chatbot-fab">
+  <a href="/chatbot/" class="chatbot-fab-btn" title="Open AI Tutor">
+    <img src="{% static 'img/chatbot_icon.jpeg' %}" alt="Chatbot" class="chatbot-fab-img">
+  </a>
+</div>
+
+<script src="{% static 'js/animations.js' %}"></script>
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

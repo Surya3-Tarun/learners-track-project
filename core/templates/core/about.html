@@ -1,0 +1,86 @@
+{% extends 'core/base.html' %}
+{% block title %}About{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <h1><i class="fa-solid fa-circle-info"></i> About Us</h1>
+  <p>India's most innovative AI-powered learning platform</p>
+</div>
+
+<section class="section">
+  <div class="about-split" style="margin-bottom:70px;">
+    <div class="reveal">
+      <div class="section-tag">ABOUT</div>
+      <h2 class="section-title" style="text-align:left;">Who We Are &<br>What We Stand For</h2>
+      <p style="color:var(--text-muted);margin-bottom:14px;line-height:1.8;font-size:0.95rem;">
+        Learners Track is a leading online learning platform dedicated to bridging the gap between education and industry. We empower students, graduates, and professionals with the skills needed to thrive in today's competitive job market.
+      </p>
+      <p style="color:var(--text-muted);margin-bottom:30px;line-height:1.8;font-size:0.95rem;">
+        With expert mentors, industry-relevant curriculum, and AI-powered tutoring, we create a transformative educational experience accessible to everyone.
+      </p>
+      <a href="/courses/" class="btn btn-primary ripple-effect">
+        <i class="fa-solid fa-graduation-cap"></i> Explore Courses
+      </a>
+    </div>
+    <div class="about-cards reveal reveal-delay-2">
+      <div class="about-mini-card">
+        <div class="icon">🎯</div>
+        <h4>Our Mission</h4>
+        <p>Make quality education accessible to everyone.</p>
+      </div>
+      <div class="about-mini-card">
+        <div class="icon">🔭</div>
+        <h4>Our Vision</h4>
+        <p>A skilled workforce ready for the modern economy.</p>
+      </div>
+      <div class="about-mini-card">
+        <div class="icon">💎</div>
+        <h4>Our Values</h4>
+        <p>Integrity, excellence, and real-world impact.</p>
+      </div>
+      <div class="about-mini-card">
+        <div class="icon">🏆</div>
+        <h4>Our Impact</h4>
+        <p>10,000+ students placed at top companies.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-header reveal">
+    <div class="section-tag">CORE PRINCIPLES</div>
+    <h2 class="section-title">Our <span class="accent">Values</span></h2>
+  </div>
+  <div class="values-list">
+    {% for num, name, desc in values %}
+    <div class="value-item reveal">
+      <div class="value-num">{{ num }}</div>
+      <div>
+        <h4>{{ name }}</h4>
+        <p>{{ desc }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section" style="background:white;">
+  <div class="section-header reveal">
+    <div class="section-tag">NUMBERS DON'T LIE</div>
+    <h2 class="section-title">Our <span class="accent">Impact</span></h2>
+  </div>
+  <div class="stats-grid" style="max-width:860px;margin:0 auto;grid-template-columns:repeat(4,1fr);">
+    <div class="stat-item reveal"><h3>10K+</h3><p>Students Enrolled</p></div>
+    <div class="stat-item reveal reveal-delay-1"><h3>200+</h3><p>Industry Partners</p></div>
+    <div class="stat-item reveal reveal-delay-2"><h3>95%</h3><p>Placement Rate</p></div>
+    <div class="stat-item reveal reveal-delay-3"><h3>4.9★</h3><p>Average Rating</p></div>
+  </div>
+</section>
+
+<div class="cta-section reveal">
+  <h2>Be Part of Something Big</h2>
+  <p>Join thousands of learners who've transformed their careers with Learners Track.</p>
+  <a href="/register/" class="btn btn-white ripple-effect">
+    <i class="fa-solid fa-user-plus"></i> Get Started Free
+  </a>
+</div>
+{% endblock %}
