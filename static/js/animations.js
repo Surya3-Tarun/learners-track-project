@@ -1,7 +1,8 @@
-// ===== LEARNERS TRACK — PREMIUM ANIMATIONS =====
+// ===== SKILSTATION — animations.js =====
 
 /* ── 1. CUSTOM CURSOR ── */
 (function initCursor() {
+  if (window.matchMedia('(hover: none)').matches) return;
   const glow  = document.createElement('div');
   const trail = document.createElement('div');
   glow.className  = 'cursor-glow';
@@ -10,13 +11,11 @@
   document.body.appendChild(trail);
 
   let mx = 0, my = 0, tx = 0, ty = 0;
-
   document.addEventListener('mousemove', e => {
     mx = e.clientX; my = e.clientY;
     glow.style.left = mx + 'px';
     glow.style.top  = my + 'px';
   });
-
   function animateTrail() {
     tx += (mx - tx) * 0.14;
     ty += (my - ty) * 0.14;
@@ -25,17 +24,47 @@
     requestAnimationFrame(animateTrail);
   }
   animateTrail();
+  const hoverTargets = 'a, button, .btn, .course-card, .feature-card, .job-card, .filter-chip, .quick-chip, .chatbot-fab-btn';
+  document.addEventListener('mouseover', e => { if (e.target.closest(hoverTargets)) glow.classList.add('expanded'); });
+  document.addEventListener('mouseout',  e => { if (e.target.closest(hoverTargets)) glow.classList.remove('expanded'); });
+})();
 
-  const hoverTargets = 'a, button, .btn, .course-card, .feature-card, .job-card, .filter-chip, .quick-chip';
-  document.addEventListener('mouseover', e => {
-    if (e.target.closest(hoverTargets)) glow.classList.add('expanded');
+/* ── 2. HAMBURGER MENU ── */
+(function initHamburger() {
+  const btn      = document.getElementById('hamburgerBtn');
+  const drawer   = document.getElementById('navDrawer');
+  const overlay  = document.getElementById('navOverlay');
+  const closeBtn = document.getElementById('navDrawerClose');
+  if (!btn || !drawer) return;
+
+  function openMenu() {
+    btn.classList.add('is-open');
+    drawer.classList.add('is-open');
+    overlay.classList.add('active');
+    btn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    btn.classList.remove('is-open');
+    drawer.classList.remove('is-open');
+    overlay.classList.remove('active');
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    btn.classList.contains('is-open') ? closeMenu() : openMenu();
   });
-  document.addEventListener('mouseout', e => {
-    if (e.target.closest(hoverTargets)) glow.classList.remove('expanded');
+  if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+  overlay.addEventListener('click', closeMenu);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+  drawer.querySelectorAll('.nav-drawer-link').forEach(link => {
+    link.addEventListener('click', () => setTimeout(closeMenu, 120));
   });
 })();
 
-/* ── 2. NAVBAR SCROLL ── */
+/* ── 3. NAVBAR SCROLL ── */
 (function initNavbar() {
   const nav = document.querySelector('.navbar');
   if (!nav) return;
@@ -44,29 +73,10 @@
   }, { passive: true });
 })();
 
-/* ── 3. NAV DROPDOWN ── */
-(function initNavDropdown() {
-  const btn      = document.getElementById('navMenuBtn');
-  const dropdown = document.getElementById('navDropdown');
-  if (!btn || !dropdown) return;
-
-  btn.addEventListener('click', e => {
-    e.stopPropagation();
-    const open = dropdown.classList.toggle('open');
-    btn.innerHTML = open
-      ? '<i class="fa-solid fa-xmark"></i>'
-      : '<i class="fa-solid fa-bars"></i>';
-  });
-  document.addEventListener('click', () => {
-    dropdown.classList.remove('open');
-    btn.innerHTML = '<i class="fa-solid fa-bars"></i>';
-  });
-})();
-
 /* ── 4. PAGE TRANSITION ── */
 (function initPageTransition() {
   document.body.style.opacity = '0';
-  document.body.style.transition = 'opacity 0.35s ease';
+  document.body.style.transition = 'opacity 0.32s ease';
   requestAnimationFrame(() => { document.body.style.opacity = '1'; });
 
   document.querySelectorAll('a[href^="/"]').forEach(link => {
@@ -75,7 +85,7 @@
       if (!href || href.startsWith('#') || link.target === '_blank') return;
       e.preventDefault();
       document.body.style.opacity = '0';
-      setTimeout(() => { window.location.href = href; }, 300);
+      setTimeout(() => { window.location.href = href; }, 280);
     });
   });
 })();
@@ -89,8 +99,7 @@
         obs.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
-
+  }, { threshold: 0.10, rootMargin: '0px 0px -48px 0px' });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 })();
 
@@ -98,12 +107,12 @@
 function staggerCards(selector, baseDelay = 80) {
   const cards = document.querySelectorAll(selector);
   cards.forEach((card, i) => {
-    card.style.opacity = '0';
+    card.style.opacity   = '0';
     card.style.transform = 'translateY(28px)';
     setTimeout(() => {
-      card.style.transition = 'opacity 0.5s ease, transform 0.55s cubic-bezier(0.34,1.56,0.64,1)';
-      card.style.opacity = '1';
-      card.style.transform = 'translateY(0)';
+      card.style.transition = 'opacity 0.5s ease, transform 0.52s cubic-bezier(0.34,1.56,0.64,1)';
+      card.style.opacity    = '1';
+      card.style.transform  = 'translateY(0)';
     }, i * baseDelay + 60);
   });
 }
@@ -111,63 +120,55 @@ window.staggerCards = staggerCards;
 
 /* ── 7. MAGNETIC HOVER ── */
 (function initMagnetic() {
-  const magneticEls = document.querySelectorAll(
-    '.btn-primary, .btn-outline, .btn-white, .apply-btn, .btn-whatsapp, .btn-phone'
-  );
-
-  magneticEls.forEach(el => {
+  if (window.matchMedia('(hover: none)').matches) return;
+  const els = document.querySelectorAll('.btn-primary, .btn-outline, .btn-white, .apply-btn, .btn-whatsapp, .btn-phone, .btn-about-cta');
+  els.forEach(el => {
     el.addEventListener('mousemove', e => {
-      const rect = el.getBoundingClientRect();
-      const dx   = (e.clientX - rect.left - rect.width  / 2) * 0.28;
-      const dy   = (e.clientY - rect.top  - rect.height / 2) * 0.28;
-      el.style.transform = `translate(${dx}px, ${dy}px) scale(1.04)`;
+      const r  = el.getBoundingClientRect();
+      const dx = (e.clientX - r.left - r.width  / 2) * 0.26;
+      const dy = (e.clientY - r.top  - r.height / 2) * 0.26;
+      el.style.transform = `translate(${dx}px,${dy}px) scale(1.04)`;
     });
     el.addEventListener('mouseleave', () => {
-      el.style.transform = '';
+      el.style.transform  = '';
       el.style.transition = 'transform 0.45s cubic-bezier(0.34,1.56,0.64,1)';
     });
-    el.addEventListener('mouseenter', () => {
-      el.style.transition = 'transform 0.15s ease';
-    });
+    el.addEventListener('mouseenter', () => { el.style.transition = 'transform 0.14s ease'; });
   });
 })();
 
 /* ── 8. 3D CARD TILT ── */
 (function init3DTilt() {
-  const tiltEls = document.querySelectorAll(
-    '.feature-card, .course-card, .enrolled-card, .about-mini-card'
-  );
-
-  tiltEls.forEach(card => {
+  if (window.matchMedia('(hover: none)').matches) return;
+  const cards = document.querySelectorAll('.feature-card, .course-card, .enrolled-card, .about-mini-card, .job-card');
+  cards.forEach(card => {
     card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const rotX = ((e.clientY - rect.top  - rect.height / 2) / (rect.height / 2)) * -7;
-      const rotY = ((e.clientX - rect.left - rect.width  / 2) / (rect.width  / 2)) *  7;
+      const r    = card.getBoundingClientRect();
+      const rotX = ((e.clientY - r.top  - r.height/2) / (r.height/2)) * -6;
+      const rotY = ((e.clientX - r.left - r.width /2) / (r.width /2)) *  6;
       card.style.transform  = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-6px) scale(1.02)`;
       card.style.transition = 'transform 0.08s ease';
-      card.style.boxShadow  = `${-rotY * 1.5}px ${rotX * 1.5}px 40px rgba(232,53,122,0.22)`;
+      card.style.boxShadow  = `${-rotY}px ${rotX}px 36px rgba(232,53,122,0.20)`;
     });
     card.addEventListener('mouseleave', () => {
       card.style.transform  = '';
-      card.style.transition = 'transform 0.55s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.55s ease';
+      card.style.transition = 'transform 0.52s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.52s ease';
       card.style.boxShadow  = '';
     });
   });
 })();
 
-/* ── 9. PARALLAX SCROLLING ── */
+/* ── 9. PARALLAX BLOBS ── */
 (function initParallax() {
   const blobs = document.querySelectorAll('.hero-blob');
   if (!blobs.length) return;
-
   let ticking = false;
   window.addEventListener('scroll', () => {
     if (!ticking) {
       requestAnimationFrame(() => {
         const sy = window.scrollY;
-        blobs.forEach((blob, i) => {
-          const speed = [0.18, 0.28, 0.22][i] || 0.2;
-          blob.style.transform = `translateY(${sy * speed}px)`;
+        blobs.forEach((b, i) => {
+          b.style.transform = `translateY(${sy * ([0.18,0.26,0.20][i]||0.2)}px)`;
         });
         ticking = false;
       });
@@ -176,70 +177,56 @@ window.staggerCards = staggerCards;
   }, { passive: true });
 })();
 
-/* ── 10. RIPPLE ── */
+/* ── 10. BUTTON RIPPLE ── */
 (function initRipple() {
   document.querySelectorAll('.btn, .apply-btn').forEach(btn => {
     btn.addEventListener('click', e => {
-      const rect   = btn.getBoundingClientRect();
-      const size   = Math.max(rect.width, rect.height) * 2;
-      const ripple = document.createElement('span');
-      ripple.style.cssText = `
-        position:absolute; border-radius:50%; background:rgba(255,255,255,0.3);
-        width:${size}px; height:${size}px;
-        left:${e.clientX - rect.left - size/2}px;
-        top:${e.clientY - rect.top  - size/2}px;
-        transform:scale(0); animation:rippleAnim 0.6s ease-out forwards;
-        pointer-events:none;
-      `;
+      const r    = btn.getBoundingClientRect();
+      const size = Math.max(r.width, r.height) * 2;
+      const rpl  = document.createElement('span');
+      rpl.style.cssText = `position:absolute;border-radius:50%;
+        background:rgba(255,255,255,0.28);
+        width:${size}px;height:${size}px;
+        left:${e.clientX-r.left-size/2}px;
+        top:${e.clientY-r.top-size/2}px;
+        transform:scale(0);animation:__rpl 0.6s ease-out forwards;
+        pointer-events:none;z-index:10;`;
       btn.style.position = 'relative';
       btn.style.overflow = 'hidden';
-      btn.appendChild(ripple);
-      setTimeout(() => ripple.remove(), 650);
+      btn.appendChild(rpl);
+      setTimeout(() => rpl.remove(), 680);
     });
   });
-
-  if (!document.getElementById('rippleStyle')) {
+  if (!document.getElementById('__rplStyle')) {
     const s = document.createElement('style');
-    s.id = 'rippleStyle';
-    s.textContent = `@keyframes rippleAnim{to{transform:scale(1);opacity:0;}}`;
+    s.id = '__rplStyle';
+    s.textContent = `@keyframes __rpl{to{transform:scale(1);opacity:0;}}`;
     document.head.appendChild(s);
   }
 })();
 
 /* ── 11. ICON TILT ── */
 (function initIconTilt() {
+  if (window.matchMedia('(hover: none)').matches) return;
   document.querySelectorAll('.feature-icon, .about-mini-card .icon').forEach(icon => {
-    const parent = icon.closest('.feature-card, .about-mini-card');
-    if (!parent) return;
-    parent.addEventListener('mouseenter', () => {
-      icon.style.transition = 'transform 0.35s cubic-bezier(0.34,1.56,0.64,1), filter 0.35s ease';
-      icon.style.transform  = 'rotate(-10deg) scale(1.18) translateY(-4px)';
-      icon.style.filter     = 'drop-shadow(0 12px 18px rgba(232,53,122,0.42))';
+    const p = icon.closest('.feature-card, .about-mini-card');
+    if (!p) return;
+    p.addEventListener('mouseenter', () => {
+      icon.style.transition = 'transform 0.32s cubic-bezier(0.34,1.56,0.64,1), filter 0.32s ease';
+      icon.style.transform  = 'rotate(-9deg) scale(1.18) translateY(-4px)';
+      icon.style.filter     = 'drop-shadow(0 10px 16px rgba(232,53,122,0.40))';
     });
-    parent.addEventListener('mouseleave', () => {
+    p.addEventListener('mouseleave', () => {
       icon.style.transform = '';
       icon.style.filter    = '';
     });
   });
 })();
 
-/* ── 12. NAV UNDERLINE ── */
-(function initUnderline() {
-  document.querySelectorAll('.nav-dropdown a').forEach(link => {
-    link.style.backgroundImage    = 'linear-gradient(var(--pink), var(--pink))';
-    link.style.backgroundSize     = '0% 2px';
-    link.style.backgroundRepeat   = 'no-repeat';
-    link.style.backgroundPosition = 'left bottom';
-    link.style.transition         = 'background-size 0.3s ease, padding-left 0.2s ease, color 0.2s';
-    link.addEventListener('mouseenter', () => { link.style.backgroundSize = '80% 2px'; });
-    link.addEventListener('mouseleave', () => { link.style.backgroundSize = '0% 2px'; });
-  });
-})();
-
-/* ── 13. SUBTLE HUE SHIFT ON SCROLL ── */
-(function initBodyGrad() {
+/* ── 12. SUBTLE HUE DRIFT ON SCROLL ── */
+(function initBodyHue() {
   window.addEventListener('scroll', () => {
-    const prog = Math.min(window.scrollY / (document.body.scrollHeight - window.innerHeight), 1);
-    document.body.style.filter = `hue-rotate(${prog * 12}deg)`;
+    const prog = Math.min(window.scrollY / Math.max(document.body.scrollHeight - window.innerHeight, 1), 1);
+    document.body.style.filter = `hue-rotate(${prog * 10}deg)`;
   }, { passive: true });
 })();

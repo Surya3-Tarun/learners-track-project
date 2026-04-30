@@ -5,42 +5,41 @@
 <div class="auth-page">
   <div class="auth-card reveal">
     <div style="text-align:center;margin-bottom:32px;">
-      <div style="width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,var(--orange),var(--orange-dark));display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 20px;">🚀</div>
+      <div style="width:60px;height:60px;border-radius:16px;background:var(--grad-pink);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 20px;">🚀</div>
       <h2>Get Started Free</h2>
-      <p>Join 10,000+ learners on Learners Track</p>
+      <p>Join 10,000+ learners on Skilstation</p>
     </div>
-
     {% for message in messages %}
     <div class="alert alert-{% if 'error' in message.tags %}error{% else %}info{% endif %}">
-      <i class="fa-solid fa-{% if 'error' in message.tags %}circle-exclamation{% else %}circle-info{% endif %}"></i> {{ message }}
+      <i class="fa-solid fa-{% if 'error' in message.tags %}circle-exclamation{% else %}circle-info{% endif %}"></i>
+      {{ message }}
     </div>
     {% endfor %}
-
     <form method="POST">
       {% csrf_token %}
       <div class="form-group">
-        <label><i class="fa-solid fa-user" style="color:var(--orange);margin-right:6px;"></i> Username</label>
+        <label><i class="fa-solid fa-user" style="color:var(--pink);margin-right:6px;"></i> Username</label>
         <input type="text" name="username" class="form-control" placeholder="Choose a username" required>
       </div>
       <div class="form-group">
-        <label><i class="fa-solid fa-envelope" style="color:var(--orange);margin-right:6px;"></i> Email</label>
+        <label><i class="fa-solid fa-envelope" style="color:var(--pink);margin-right:6px;"></i> Email</label>
         <input type="email" name="email" class="form-control" placeholder="your@email.com" required>
       </div>
       <div class="form-group">
-        <label><i class="fa-solid fa-lock" style="color:var(--orange);margin-right:6px;"></i> Password</label>
+        <label><i class="fa-solid fa-lock" style="color:var(--pink);margin-right:6px;"></i> Password</label>
         <input type="password" name="password1" class="form-control" placeholder="Create a password" required>
       </div>
       <div class="form-group">
-        <label><i class="fa-solid fa-lock" style="color:var(--orange);margin-right:6px;"></i> Confirm Password</label>
+        <label><i class="fa-solid fa-lock" style="color:var(--pink);margin-right:6px;"></i> Confirm Password</label>
         <input type="password" name="password2" class="form-control" placeholder="Confirm your password" required>
       </div>
-      <button type="submit" class="btn btn-primary ripple-effect" style="width:100%;justify-content:center;font-size:1rem;padding:15px;margin-top:8px;">
+      <button type="submit" class="btn btn-primary ripple-effect"
+              style="width:100%;justify-content:center;font-size:1rem;padding:15px;margin-top:8px;">
         <i class="fa-solid fa-user-plus"></i> Create Account
       </button>
     </form>
-
     <p style="text-align:center;margin-top:24px;color:var(--text-muted);font-size:0.92rem;">
-      Already have an account? <a href="/login/" style="color:var(--orange);font-weight:600;">Sign in →</a>
+      Already have an account? <a href="/login/" style="color:var(--pink);font-weight:600;">Sign in →</a>
     </p>
   </div>
 </div>

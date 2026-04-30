@@ -4,24 +4,25 @@
 {% block content %}
 <div class="page-hero">
   <h1><i class="fa-solid fa-briefcase"></i> Job Portal</h1>
-  <p>Discover top tech opportunities matched to your skills</p>
+  <p>Discover top tech opportunities matched to your Skilstation skills</p>
 </div>
 
-<!-- Search & Filters -->
 <div class="filter-bar">
   <form method="GET" style="display:flex;gap:10px;align-items:center;flex:1;flex-wrap:wrap;">
-    <div class="nav-search" style="width:260px;display:flex;">
+    <div class="nav-search" style="width:260px;display:flex;background:rgba(255,255,255,0.7);">
       <input type="text" name="q" placeholder="Search jobs, skills..." value="{{ query }}" style="flex:1;">
-      <button type="submit" style="background:none;border:none;cursor:pointer;color:var(--orange);padding:0 8px;">
+      <button type="submit" style="background:none;border:none;cursor:pointer;color:var(--pink);padding:0 8px;">
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
     </div>
     {% for cat in categories %}
-      <a href="/jobs/?category={{ cat.0 }}{% if query %}&q={{ query }}{% endif %}" class="filter-chip {% if selected_category == cat.0 %}active{% endif %}">{{ cat.1 }}</a>
+      <a href="/jobs/?category={{ cat.0 }}{% if query %}&q={{ query }}{% endif %}"
+         class="filter-chip {% if selected_category == cat.0 %}active{% endif %}">{{ cat.1 }}</a>
     {% endfor %}
-    <div style="flex-basis:100%;height:1px;background:var(--border);margin:4px 0;"></div>
+    <div style="flex-basis:100%;height:1px;background:rgba(232,53,122,0.1);margin:4px 0;"></div>
     {% for t in types %}
-      <a href="/jobs/?type={{ t.0 }}{% if selected_category %}&category={{ selected_category }}{% endif %}" class="filter-chip {% if selected_type == t.0 %}active{% endif %}">{{ t.1 }}</a>
+      <a href="/jobs/?type={{ t.0 }}{% if selected_category %}&category={{ selected_category }}{% endif %}"
+         class="filter-chip {% if selected_type == t.0 %}active{% endif %}">{{ t.1 }}</a>
     {% endfor %}
     {% if selected_category or selected_type or query %}
       <a href="/jobs/" class="clear-btn"><i class="fa-solid fa-xmark"></i> Clear</a>
@@ -44,7 +45,9 @@
       <span><i class="fa-solid fa-briefcase"></i> {{ job.job_type }}</span>
       <span><i class="fa-solid fa-indian-rupee-sign"></i> {{ job.salary }}</span>
       <span><i class="fa-solid fa-clock"></i>
-        {% if job.posted_days_ago == 0 %}Today{% elif job.posted_days_ago == 1 %}1 day ago{% else %}{{ job.posted_days_ago }} days ago{% endif %}
+        {% if job.posted_days_ago == 0 %}Today
+        {% elif job.posted_days_ago == 1 %}1 day ago
+        {% else %}{{ job.posted_days_ago }} days ago{% endif %}
       </span>
     </div>
     {% if job.skills %}
@@ -60,11 +63,18 @@
   <div style="grid-column:1/-1;text-align:center;padding:80px 20px;color:var(--text-muted);">
     <i class="fa-solid fa-briefcase" style="font-size:3rem;opacity:0.3;display:block;margin-bottom:16px;"></i>
     <h3 style="font-family:var(--font-display);">No jobs found</h3>
-    <a href="/jobs/" style="color:var(--orange);">View all jobs</a>
+    <a href="/jobs/" style="color:var(--pink);">View all jobs</a>
   </div>
   {% endfor %}
 </div>
 {% endblock %}
+
 {% block extra_scripts %}
-<script>staggerCards('#jobsGrid .job-card');</script>
+<script>
+  window.addEventListener('load', () => {
+    if (typeof staggerCards === 'function') {
+      staggerCards('#jobsGrid .job-card', 70);
+    }
+  });
+</script>
 {% endblock %}

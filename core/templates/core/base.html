@@ -3,20 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Learners Track{% endblock %} — India's AI-Powered Learning Platform</title>
+  <meta name="description" content="Skilstation — India's AI-Powered Learning Platform. Learn, grow, and get hired at top companies.">
+  <title>{% block title %}Skilstation{% endblock %} — India's AI-Powered Learning Platform</title>
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+  <link rel="stylesheet" href="{% static 'css/animations.css' %}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   {% block extra_head %}{% endblock %}
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar" role="navigation">
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" role="navigation" id="mainNavbar">
   <a href="/" class="nav-logo">
-    <img src="{% static 'img/logo.jpeg' %}" alt="Learners Track Logo" class="nav-logo-img">
-    <span class="nav-logo-text">Learners <span>Track</span></span>
+    <img src="{% static 'img/logo.jpeg' %}" alt="Skilstation Logo" class="nav-logo-img">
+    <span class="nav-logo-text">Skil<span>station</span></span>
   </a>
 
   <form class="nav-search" action="/courses/" method="GET">
@@ -24,24 +26,60 @@
     <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
   </form>
 
-  <button class="nav-menu-btn" id="navMenuBtn" aria-label="Menu">
-    <i class="fa-solid fa-bars"></i>
+  <!-- Hamburger Button -->
+  <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+    <span class="ham-line ham-line-1"></span>
+    <span class="ham-line ham-line-2"></span>
+    <span class="ham-line ham-line-3"></span>
   </button>
 
-  <div class="nav-dropdown" id="navDropdown">
-    <a href="/"><i class="fa-solid fa-house"></i> Home</a>
-    <a href="/about/"><i class="fa-solid fa-circle-info"></i> About</a>
-    <a href="/courses/"><i class="fa-solid fa-graduation-cap"></i> Courses</a>
-    <a href="/jobs/"><i class="fa-solid fa-briefcase"></i> Job Portal</a>
-    <a href="/contact/"><i class="fa-solid fa-phone"></i> Contact</a>
-    <div class="nav-divider"></div>
-    {% if user.is_authenticated %}
-      <a href="/dashboard/"><i class="fa-solid fa-chart-line"></i> My Courses</a>
-      <a href="/chatbot/"><i class="fa-solid fa-robot"></i> AI Tutor</a>
-      <a href="/logout/" class="nav-login"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-    {% else %}
-      <a href="/login/" class="nav-login"><i class="fa-solid fa-lock"></i> Login</a>
-    {% endif %}
+  <!-- Nav Menu Overlay -->
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <!-- Nav Drawer -->
+  <div class="nav-drawer" id="navDrawer">
+    <div class="nav-drawer-header">
+      <span class="nav-drawer-title">Skil<span>station</span></span>
+      <button class="nav-drawer-close" id="navDrawerClose" aria-label="Close menu">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="nav-drawer-links">
+      <a href="/" class="nav-drawer-link" style="--i:0">
+        <i class="fa-solid fa-house"></i><span>Home</span>
+      </a>
+      <a href="/about/" class="nav-drawer-link" style="--i:1">
+        <i class="fa-solid fa-circle-info"></i><span>About</span>
+      </a>
+      <a href="/courses/" class="nav-drawer-link" style="--i:2">
+        <i class="fa-solid fa-graduation-cap"></i><span>Courses</span>
+      </a>
+      <a href="/jobs/" class="nav-drawer-link" style="--i:3">
+        <i class="fa-solid fa-briefcase"></i><span>Job Portal</span>
+      </a>
+      <a href="/contact/" class="nav-drawer-link" style="--i:4">
+        <i class="fa-solid fa-phone"></i><span>Contact</span>
+      </a>
+      <div class="nav-drawer-divider"></div>
+      {% if user.is_authenticated %}
+        <a href="/dashboard/" class="nav-drawer-link" style="--i:5">
+          <i class="fa-solid fa-chart-line"></i><span>My Courses</span>
+        </a>
+        <a href="/chatbot/" class="nav-drawer-link" style="--i:6">
+          <i class="fa-solid fa-robot"></i><span>AI Tutor</span>
+        </a>
+        <a href="/logout/" class="nav-drawer-link nav-drawer-cta" style="--i:7">
+          <i class="fa-solid fa-right-from-bracket"></i><span>Logout</span>
+        </a>
+      {% else %}
+        <a href="/login/" class="nav-drawer-link nav-drawer-cta" style="--i:5">
+          <i class="fa-solid fa-lock"></i><span>Login</span>
+        </a>
+        <a href="/register/" class="nav-drawer-link nav-drawer-cta-alt" style="--i:6">
+          <i class="fa-solid fa-user-plus"></i><span>Get Started Free</span>
+        </a>
+      {% endif %}
+    </div>
   </div>
 </nav>
 
@@ -63,9 +101,9 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">
-    <img src="{% static 'img/logo.jpeg' %}" alt="Learners Track Logo"
+    <img src="{% static 'img/logo.jpeg' %}" alt="Skilstation Logo"
          style="width:28px;height:28px;object-fit:contain;border-radius:6px;">
-    <span>Learners Track</span>
+    <span>Skilstation</span>
   </div>
   <nav>
     <a href="/">Home</a>
@@ -75,16 +113,21 @@
     <a href="/contact/">Contact</a>
     {% if user.is_authenticated %}<a href="/dashboard/">Dashboard</a>{% endif %}
   </nav>
-  <p>© 2026 Learners Track. All rights reserved.</p>
+  <p>© 2026 Skilstation. All rights reserved.</p>
   <p class="dev-credit">Developed by <a href="#">Sofzenix IT Solutions</a></p>
 </footer>
 
-<!-- CHATBOT FLOATING BUTTON -->
-<div class="chatbot-fab">
-  <span class="chatbot-fab-label">Chat Support</span>
-  <a href="/chatbot/" class="chatbot-fab-btn" title="Open AI Tutor">
-    <img src="{% static 'img/chatbot_icon.jpeg' %}" alt="Chatbot" class="chatbot-fab-img">
-  </a>
+<!-- CHATBOT FIXED BUTTON -->
+<div class="chatbot-fab" id="chatbotFab">
+  <div class="chatbot-fab-inner">
+    <span class="chatbot-fab-label">Chat Support</span>
+    <a href="/chatbot/" class="chatbot-fab-btn" title="Open AI Tutor">
+      <div class="chatbot-bot-face">
+        <img src="{% static 'img/chatbot_icon.jpeg' %}" alt="Chatbot" class="chatbot-fab-img">
+      </div>
+      <div class="chatbot-wave">👋</div>
+    </a>
+  </div>
 </div>
 
 <script src="{% static 'js/animations.js' %}"></script>

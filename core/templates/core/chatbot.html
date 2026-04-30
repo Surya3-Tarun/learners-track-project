@@ -11,7 +11,11 @@
           <img src="{% static 'img/chatbot_icon.jpeg' %}" alt="AI Tutor">
         </div>
         <div>
-          <h3>Learners Track AI Tutor <span style="background:rgba(255,255,255,0.2);padding:2px 9px;border-radius:20px;font-size:0.68rem;font-weight:600;margin-left:8px;">{{ total_courses }} COURSES</span></h3>
+          <h3>Skilstation AI Tutor
+            <span style="background:rgba(255,255,255,0.2);padding:2px 9px;border-radius:20px;font-size:0.68rem;font-weight:600;margin-left:8px;">
+              {{ total_courses }} COURSES
+            </span>
+          </h3>
           <p><span class="status-dot"></span> Online — Ready to help</p>
         </div>
       </div>
@@ -33,7 +37,8 @@
       <button class="chat-mic-btn" id="micBtn" title="Speak">
         <i class="fa-solid fa-microphone"></i>
       </button>
-      <input type="text" id="chatInput" placeholder="Ask about any of our {{ total_courses }} courses...">
+      <input type="text" id="chatInput"
+             placeholder="Ask about any of our {{ total_courses }} courses...">
       <button class="chat-send-btn" id="sendBtn">
         <i class="fa-solid fa-paper-plane"></i>
       </button>
@@ -43,10 +48,10 @@
 </div>
 
 <script>
-window.USER_INITIAL = '{{ user.username|first|upper|default:"U" }}';
-window.TOTAL_COURSES = {{ total_courses }};
-window.COURSES_DATA = {{ courses_data|safe }};
-window.CHATBOT_IMG = "{% static 'img/chatbot_icon.jpeg' %}";
+  window.USER_INITIAL  = '{{ user.username|first|upper|default:"U" }}';
+  window.TOTAL_COURSES = {{ total_courses }};
+  window.COURSES_DATA  = {{ courses_data|safe }};
+  window.CHATBOT_IMG   = "{% static 'img/chatbot_icon.jpeg' %}";
 </script>
 {% endblock %}
 

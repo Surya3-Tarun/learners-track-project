@@ -5,32 +5,30 @@
 <div class="auth-page">
   <div class="auth-card reveal">
     <div style="text-align:center;margin-bottom:32px;">
-      <div style="width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,var(--orange),var(--orange-dark));display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 20px;">🔐</div>
+      <div style="width:60px;height:60px;border-radius:16px;background:var(--grad-pink);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 20px;">🔐</div>
       <h2>Welcome Back</h2>
-      <p>Sign in to continue your learning journey</p>
+      <p>Sign in to continue your learning journey at Skilstation</p>
     </div>
-
     {% for message in messages %}
     <div class="alert alert-error"><i class="fa-solid fa-circle-exclamation"></i> {{ message }}</div>
     {% endfor %}
-
     <form method="POST">
       {% csrf_token %}
       <div class="form-group">
-        <label><i class="fa-solid fa-user" style="color:var(--orange);margin-right:6px;"></i> Username</label>
+        <label><i class="fa-solid fa-user" style="color:var(--pink);margin-right:6px;"></i> Username</label>
         <input type="text" name="username" class="form-control" placeholder="Enter your username" required>
       </div>
       <div class="form-group">
-        <label><i class="fa-solid fa-lock" style="color:var(--orange);margin-right:6px;"></i> Password</label>
+        <label><i class="fa-solid fa-lock" style="color:var(--pink);margin-right:6px;"></i> Password</label>
         <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
       </div>
-      <button type="submit" class="btn btn-primary ripple-effect" style="width:100%;justify-content:center;font-size:1rem;padding:15px;margin-top:8px;">
+      <button type="submit" class="btn btn-primary ripple-effect"
+              style="width:100%;justify-content:center;font-size:1rem;padding:15px;margin-top:8px;">
         <i class="fa-solid fa-right-to-bracket"></i> Sign In
       </button>
     </form>
-
     <p style="text-align:center;margin-top:24px;color:var(--text-muted);font-size:0.92rem;">
-      Don't have an account? <a href="/register/" style="color:var(--orange);font-weight:600;">Create one free →</a>
+      Don't have an account? <a href="/register/" style="color:var(--pink);font-weight:600;">Create one free →</a>
     </p>
   </div>
 </div>
